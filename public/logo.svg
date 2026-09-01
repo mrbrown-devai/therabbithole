@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left ear (connected to head) -->
+  <path d="M70 95 C50 85 40 45 55 20 C70 5 85 15 90 40 C93 55 88 75 85 90" fill="white"/>
+  <!-- Right ear (connected to head) -->
+  <path d="M130 95 C150 85 160 45 145 20 C130 5 115 15 110 40 C107 55 112 75 115 90" fill="white"/>
+  <!-- Head circle -->
+  <circle cx="100" cy="125" r="50" fill="white"/>
+  <!-- Left eye (V shape) - cut out -->
+  <path d="M75 115 L85 130 L95 115" stroke="#0a0a0f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Right eye (V shape) - cut out -->
+  <path d="M105 115 L115 130 L125 115" stroke="#0a0a0f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Nose/mouth (small V) - cut out -->
+  <path d="M95 145 L100 155 L105 145" stroke="#0a0a0f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
