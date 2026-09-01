@@ -39,6 +39,27 @@ Two consequences worth knowing:
   large refactors are easier done by rewriting a page in idiomatic JSX.
 - `app/courses/rwa-101/` is hand-written in normal JSX and is the model to follow for new courses.
 
+## Live figures
+
+Course numbers that have a public data source are refreshed weekly rather than
+hard-coded. `scripts/update-metrics.mjs` pulls them from DefiLlama and writes
+`data/metrics.json`; the workflow in `.github/workflows/update-metrics.yml`
+runs it every Monday and commits only when a value actually moves.
+
+Values are baked in at build time, so a DefiLlama outage never reaches a
+visitor. Each metric is fetched independently and falls back to the last
+committed value on failure.
+
+Course copy addresses them as `{{tokens}}` — see `lib/metrics.js` for the list.
+Run it by hand with:
+
+```bash
+node scripts/update-metrics.mjs
+```
+
+Figures without a live feed (tokenized treasuries, equities YoY) stay static
+and carry their own date in the copy.
+
 ## Known issues
 
 Five courses are listed on the landing page but have no route and currently 404:
