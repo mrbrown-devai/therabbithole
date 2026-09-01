@@ -490,3 +490,65 @@ export const QUIZ = [
 ];
 
 export const PASS_MARK = 7;
+
+/**
+ * Chrome and labels. Kept here rather than inline in the view so translation
+ * overlays can reach every string on the page.
+ */
+export const UI = {
+  back: 'Back to courses',
+  heroTitle: 'RWA 101: Tokenized Stocks',
+  heroSubtitle: 'Wall Street on-chain',
+  heroLede: 'Own Apple, Nvidia and Tesla from your crypto wallet. 24/7. No broker required.',
+  badgeChapters: '10 chapters',
+  badgeDuration: '~50 min',
+  badgeLevel: 'Beginner → Intermediate',
+  badgeQuiz: 'Interactive quiz',
+  tickerNote: 'on-chain',
+  chapterSources: 'Chapter {n} sources',
+  quizChapterTitle: 'Quiz — Test Your RWA Knowledge',
+  quizChapterSubtitle: '{n} questions · pass mark {pass}/{n} · certificate “RWA Explorer”',
+  quizIntro:
+    'Ten questions covering everything from the three models to ERC-8056 and the risk list. Answers are saved as you go.',
+  quizSubmit: 'Submit answers',
+  quizAnswerAll: 'Answer all {n} questions ({done}/{n})',
+  quizRetake: 'Retake quiz',
+  quizPassTitle: 'Certificate unlocked — RWA Explorer',
+  quizPassBody:
+    'You cleared the {pass}/{n} pass mark. You understand what you own when you buy a tokenized stock — which puts you ahead of most people buying them.',
+  quizFailTitle: 'Pass mark is {pass}/{n}',
+  quizFailBody:
+    'Close. Revisit chapters 2 and 8 — the three models and the risk list carry most of the answers.',
+  nextEyebrow: 'Next rabbit hole',
+  nextTitle: 'DN404: NFT Ownership Reimagined',
+  nextBody:
+    'How a pixel unicorn ends up paying you in Nvidia — the standard behind the Stock Back model.',
+  sourcesHeading: '📚 Sources & Further Reading',
+  disclaimer:
+    'Educational content only. Not financial advice. Tokenized stocks are economic exposure, not shares — figures are as of August 2026 and change constantly. Do your own research.',
+};
+
+/** The three-model cards in chapter 2. Verdict words are translated; tone is not. */
+export const MODELS = [
+  {
+    n: '1',
+    tone: 'emerald',
+    name: 'Issuer-sponsored',
+    verdict: 'Best',
+    line: 'The company issues the token. Can carry real equity rights.',
+  },
+  {
+    n: '2',
+    tone: 'amber',
+    name: 'Custodial / 1:1 backed',
+    verdict: 'Common',
+    line: 'A third party holds real shares. You carry their counterparty risk.',
+  },
+  {
+    n: '3',
+    tone: 'red',
+    name: 'Synthetic / linked',
+    verdict: 'Riskiest',
+    line: 'No shares held. Price exposure only — no dividends, no ownership.',
+  },
+];

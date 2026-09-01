@@ -1,9 +1,38 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { COURSE_ID, LEVELS, MARKET_STATS, PASS_MARK, QUIZ, TICKERS } from './content';
+import {
+  COURSE_ID,
+  LEVELS,
+  MARKET_STATS,
+  MODELS,
+  PASS_MARK,
+  QUIZ,
+  TICKERS,
+  UI,
+} from './content';
+import TRANSLATIONS from './translations';
+import {
+  LANGUAGES,
+  mergeTranslation,
+  readStoredLanguage,
+  storeLanguage,
+} from '../../../lib/i18n';
+
+/* ------------------------------------------------------------------ course */
+
+const CourseContext = createContext(null);
+const useCourse = () => useContext(CourseContext);
+
+/** "Answer all {n} questions" -> "Answer all 10 questions" */
+function fmt(template, vars) {
+  return Object.entries(vars).reduce(
+    (s, [k, v]) => s.replaceAll(`{${k}}`, String(v)),
+    template
+  );
+}
 
 /* ---------------------------------------------------------------- markdown */
 
@@ -39,8 +68,33 @@ function renderContent(text) {
 
 /* ------------------------------------------------------------------ pieces */
 
+function LanguageSelect({ language, onChange }) {
+  return (
+    <select
+      value={language}
+      onChange={(e) => onChange(e.target.value)}
+      aria-label="Language"
+      className="cursor-pointer appearance-none rounded-lg border-none bg-white/5 px-3 py-1.5 pr-8 text-sm font-medium text-white hover:bg-white/10"
+      style={{
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '16px',
+        backgroundPosition: 'right 8px center',
+      }}
+    >
+      {LANGUAGES.map((l) => (
+        <option key={l.code} value={l.code} className="bg-slate-800 text-white">
+          {l.flag} {l.label}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 function TickerTape() {
-  const row = [...TICKERS, ...TICKERS];
+  const { tickers, ui } = useCourse();
+  const row = [...tickers, ...tickers];
   return (
     <div className="relative overflow-hidden border-y border-white/5 bg-black/40 py-2.5">
       <div className="ticker-track flex w-max gap-8">
@@ -49,7 +103,7 @@ function TickerTape() {
             <span className="text-emerald-400 font-semibold">{t.sym}</span>
             <span className="text-gray-600">{t.name}</span>
             <span className="text-gray-700">/</span>
-            <span className="text-cyan-400">on-chain</span>
+            <span className="text-cyan-400">{ui.tickerNote}</span>
           </span>
         ))}
       </div>
@@ -60,9 +114,10 @@ function TickerTape() {
 }
 
 function StatGrid() {
+  const { marketStats } = useCourse();
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-4">
-      {MARKET_STATS.map((s) => (
+      {marketStats.map((s) => (
         <div key={s.label} className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
           <div className="text-2xl font-black text-emerald-400">{s.value}</div>
           <div className="mt-1 text-xs text-gray-300">{s.label}</div>
@@ -73,12 +128,6 @@ function StatGrid() {
   );
 }
 
-const MODELS = [
-  { n: '1', name: 'Issuer-sponsored', verdict: 'Best', tone: 'emerald', line: 'The company issues the token. Can carry real equity rights.' },
-  { n: '2', name: 'Custodial / 1:1 backed', verdict: 'Common', tone: 'amber', line: 'A third party holds real shares. You carry their counterparty risk.' },
-  { n: '3', name: 'Synthetic / linked', verdict: 'Riskiest', tone: 'red', line: 'No shares held. Price exposure only — no dividends, no ownership.' },
-];
-
 const TONES = {
   emerald: 'border-emerald-500/30 bg-emerald-500/5 text-emerald-300',
   amber: 'border-amber-500/30 bg-amber-500/5 text-amber-300',
@@ -86,9 +135,10 @@ const TONES = {
 };
 
 function ModelCards() {
+  const { models } = useCourse();
   return (
     <div className="grid md:grid-cols-3 gap-3 my-4">
-      {MODELS.map((m) => (
+      {models.map((m) => (
         <div key={m.n} className={`rounded-xl border p-4 ${TONES[m.tone]}`}>
           <div className="flex items-center justify-between">
             <span className="font-mono text-xs opacity-70">MODEL {m.n}</span>
@@ -139,17 +189,25 @@ function ComparisonTable({ table }) {
 function Checklist({ items, sectionId }) {
   const [done, setDone] = useState({});
   useEffect(() => {
-    const raw = localStorage.getItem(`${COURSE_ID}-checklist`);
-    if (raw) setDone(JSON.parse(raw)[sectionId] || {});
+    try {
+      const raw = localStorage.getItem(`${COURSE_ID}-checklist`);
+      if (raw) setDone(JSON.parse(raw)[sectionId] || {});
+    } catch {
+      /* ignore */
+    }
   }, [sectionId]);
 
   const toggle = (i) => {
     setDone((prev) => {
       const next = { ...prev, [i]: !prev[i] };
-      const raw = localStorage.getItem(`${COURSE_ID}-checklist`);
-      const all = raw ? JSON.parse(raw) : {};
-      all[sectionId] = next;
-      localStorage.setItem(`${COURSE_ID}-checklist`, JSON.stringify(all));
+      try {
+        const raw = localStorage.getItem(`${COURSE_ID}-checklist`);
+        const all = raw ? JSON.parse(raw) : {};
+        all[sectionId] = next;
+        localStorage.setItem(`${COURSE_ID}-checklist`, JSON.stringify(all));
+      } catch {
+        /* ignore */
+      }
       return next;
     });
   };
@@ -177,24 +235,34 @@ function Checklist({ items, sectionId }) {
 /* -------------------------------------------------------------------- quiz */
 
 function Quiz() {
+  const { quiz, ui } = useCourse();
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  const score = QUIZ.reduce((n, q, i) => n + (answers[i] === q.correct ? 1 : 0), 0);
+  const score = quiz.reduce((n, q, i) => n + (answers[i] === q.correct ? 1 : 0), 0);
   const passed = score >= PASS_MARK;
-  const answeredAll = Object.keys(answers).length === QUIZ.length;
+  const answeredAll = Object.keys(answers).length === quiz.length;
 
   useEffect(() => {
-    const raw = localStorage.getItem(`${COURSE_ID}-quiz`);
-    if (raw) {
-      const saved = JSON.parse(raw);
-      setAnswers(saved.answers || {});
-      setSubmitted(!!saved.submitted);
+    try {
+      const raw = localStorage.getItem(`${COURSE_ID}-quiz`);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        setAnswers(saved.answers || {});
+        setSubmitted(!!saved.submitted);
+      }
+    } catch {
+      /* ignore */
     }
   }, []);
 
-  const persist = (a, s) =>
-    localStorage.setItem(`${COURSE_ID}-quiz`, JSON.stringify({ answers: a, submitted: s }));
+  const persist = (a, s) => {
+    try {
+      localStorage.setItem(`${COURSE_ID}-quiz`, JSON.stringify({ answers: a, submitted: s }));
+    } catch {
+      /* ignore */
+    }
+  };
 
   const pick = (qi, ai) => {
     if (submitted) return;
@@ -209,9 +277,11 @@ function Quiz() {
     persist({}, false);
   };
 
+  const vars = { n: quiz.length, pass: PASS_MARK, done: Object.keys(answers).length };
+
   return (
     <div className="space-y-4">
-      {QUIZ.map((q, qi) => (
+      {quiz.map((q, qi) => (
         <div key={qi} className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
           <div className="mb-3 flex items-start gap-3">
             <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md bg-teal-500/20 font-mono text-xs text-teal-300">
@@ -269,7 +339,7 @@ function Quiz() {
               : 'cursor-not-allowed bg-white/5 text-gray-600'
           }`}
         >
-          {answeredAll ? 'Submit answers' : `Answer all ${QUIZ.length} questions (${Object.keys(answers).length}/${QUIZ.length})`}
+          {answeredAll ? ui.quizSubmit : fmt(ui.quizAnswerAll, vars)}
         </button>
       ) : (
         <motion.div
@@ -281,29 +351,19 @@ function Quiz() {
         >
           <div className="text-5xl">{passed ? '🎓' : '📖'}</div>
           <div className="mt-3 text-3xl font-black text-white">
-            {score} / {QUIZ.length}
+            {score} / {quiz.length}
           </div>
-          {passed ? (
-            <>
-              <p className="mt-2 font-semibold text-emerald-300">Certificate unlocked — RWA Explorer</p>
-              <p className="mt-1 text-sm text-gray-400">
-                You cleared the {PASS_MARK}/{QUIZ.length} pass mark. You understand what you own when you buy a
-                tokenized stock — which puts you ahead of most people buying them.
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="mt-2 font-semibold text-amber-300">Pass mark is {PASS_MARK}/{QUIZ.length}</p>
-              <p className="mt-1 text-sm text-gray-400">
-                Close. Revisit chapters 2 and 8 — the three models and the risk list carry most of the answers.
-              </p>
-            </>
-          )}
+          <p className={`mt-2 font-semibold ${passed ? 'text-emerald-300' : 'text-amber-300'}`}>
+            {passed ? ui.quizPassTitle : fmt(ui.quizFailTitle, vars)}
+          </p>
+          <p className="mt-1 text-sm text-gray-400">
+            {passed ? fmt(ui.quizPassBody, vars) : ui.quizFailBody}
+          </p>
           <button
             onClick={reset}
             className="mt-4 rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-white/30 hover:text-white"
           >
-            Retake quiz
+            {ui.quizRetake}
           </button>
         </motion.div>
       )}
@@ -314,127 +374,162 @@ function Quiz() {
 /* -------------------------------------------------------------------- page */
 
 export default function RWA101Page() {
+  const [language, setLanguage] = useState('en');
   const [openLevels, setOpenLevels] = useState({});
   const [openSections, setOpenSections] = useState({});
   const [completed, setCompleted] = useState({});
 
   useEffect(() => {
-    const raw = localStorage.getItem(COURSE_ID);
-    if (raw) setCompleted(JSON.parse(raw).completed || {});
+    setLanguage(readStoredLanguage());
+    try {
+      const raw = localStorage.getItem(COURSE_ID);
+      if (raw) setCompleted(JSON.parse(raw).completed || {});
+    } catch {
+      /* ignore */
+    }
   }, []);
+
+  const changeLanguage = (code) => {
+    setLanguage(code);
+    storeLanguage(code);
+  };
+
+  // English is the source; the overlay only carries text, and anything it
+  // omits falls back to English rather than rendering empty.
+  const course = useMemo(
+    () =>
+      mergeTranslation(
+        {
+          ui: UI,
+          levels: LEVELS,
+          quiz: QUIZ,
+          marketStats: MARKET_STATS,
+          models: MODELS,
+          tickers: TICKERS,
+        },
+        TRANSLATIONS[language]
+      ),
+    [language]
+  );
+
+  const { ui, levels, quiz } = course;
 
   const toggleLevel = (id) => setOpenLevels((p) => ({ ...p, [id]: !p[id] }));
   const toggleSection = (id) => setOpenSections((p) => ({ ...p, [id]: !p[id] }));
   const toggleComplete = (id) =>
     setCompleted((prev) => {
       const next = { ...prev, [id]: !prev[id] };
-      localStorage.setItem(COURSE_ID, JSON.stringify({ completed: next }));
+      try {
+        localStorage.setItem(COURSE_ID, JSON.stringify({ completed: next }));
+      } catch {
+        /* ignore */
+      }
       return next;
     });
 
-  const totalSections = LEVELS.reduce((n, l) => n + l.sections.length, 0);
+  const totalSections = levels.reduce((n, l) => n + l.sections.length, 0);
   const progress = Math.round((Object.values(completed).filter(Boolean).length / totalSections) * 100);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white">
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/90 backdrop-blur-xl">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link href="/" className="flex items-center gap-2 text-gray-400 transition hover:text-white">
-            <span>←</span>
-            <span className="text-sm">Back to courses</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-24 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              />
+    <CourseContext.Provider value={course}>
+      <main className="min-h-screen bg-[#0a0a0f] text-white">
+        <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/90 backdrop-blur-xl">
+          <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-4">
+            <Link href="/" className="flex items-center gap-2 text-gray-400 transition hover:text-white">
+              <span>←</span>
+              <span className="hidden text-sm sm:inline">{ui.back}</span>
+            </Link>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-20 overflow-hidden rounded-full bg-white/10 sm:w-24">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <span className="text-sm text-gray-400">{progress}%</span>
+              <LanguageSelect language={language} onChange={changeLanguage} />
             </div>
-            <span className="text-sm text-gray-400">{progress}%</span>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* hero */}
-      <section className="relative overflow-hidden px-4 py-16">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/3 top-0 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute bottom-0 right-1/3 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
-        </div>
-        <div className="container relative z-10 mx-auto max-w-4xl">
-          <div className="mb-8 text-center">
-            <span className="mb-4 block text-6xl">📈</span>
-            <h1 className="mb-3 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-4xl font-black text-transparent md:text-5xl">
-              RWA 101: Tokenized Stocks
-            </h1>
-            <p className="text-xl text-gray-400">Wall Street on-chain</p>
-            <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-500">
-              Own Apple, Nvidia and Tesla from your crypto wallet. 24/7. No broker required.
-            </p>
+        {/* hero */}
+        <section className="relative overflow-hidden px-4 py-16">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute left-1/3 top-0 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+            <div className="absolute bottom-0 right-1/3 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
           </div>
+          <div className="container relative z-10 mx-auto max-w-4xl">
+            <div className="mb-8 text-center">
+              <span className="mb-4 block text-6xl">📈</span>
+              <h1 className="mb-3 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-4xl font-black text-transparent md:text-5xl">
+                {ui.heroTitle}
+              </h1>
+              <p className="text-xl text-gray-400">{ui.heroSubtitle}</p>
+              <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-500">{ui.heroLede}</p>
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-3 text-sm">
-            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/20 px-3 py-1 text-emerald-300">
-              10 chapters
-            </span>
-            <span className="rounded-full border border-cyan-500/30 bg-cyan-500/20 px-3 py-1 text-cyan-300">
-              ~50 min
-            </span>
-            <span className="rounded-full border border-blue-500/30 bg-blue-500/20 px-3 py-1 text-blue-300">
-              Beginner → Intermediate
-            </span>
-            <span className="rounded-full border border-teal-500/30 bg-teal-500/20 px-3 py-1 text-teal-300">
-              Interactive quiz
-            </span>
+            <div className="flex flex-wrap justify-center gap-3 text-sm">
+              <span className="rounded-full border border-emerald-500/30 bg-emerald-500/20 px-3 py-1 text-emerald-300">
+                {ui.badgeChapters}
+              </span>
+              <span className="rounded-full border border-cyan-500/30 bg-cyan-500/20 px-3 py-1 text-cyan-300">
+                {ui.badgeDuration}
+              </span>
+              <span className="rounded-full border border-blue-500/30 bg-blue-500/20 px-3 py-1 text-blue-300">
+                {ui.badgeLevel}
+              </span>
+              <span className="rounded-full border border-teal-500/30 bg-teal-500/20 px-3 py-1 text-teal-300">
+                {ui.badgeQuiz}
+              </span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <TickerTape />
+        <TickerTape />
 
-      {/* chapters */}
-      <section className="px-4 pb-12 pt-10">
-        <div className="container mx-auto max-w-4xl space-y-4">
-          {LEVELS.map((level) => {
-            const allDone = level.sections.every((s) => completed[s.id]);
-            const isOpen = openLevels[level.id];
-            return (
-              <motion.div
-                key={level.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 * level.id }}
-                className="overflow-hidden rounded-2xl border border-white/10"
-                style={{ backgroundColor: level.bgColor }}
-              >
-                <button
-                  onClick={() => toggleLevel(level.id)}
-                  className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-white/5"
+        {/* chapters */}
+        <section className="px-4 pb-12 pt-10">
+          <div className="container mx-auto max-w-4xl space-y-4">
+            {levels.map((level) => {
+              const allDone = level.sections.every((s) => completed[s.id]);
+              const isOpen = openLevels[level.id];
+              return (
+                <motion.div
+                  key={level.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 * level.id }}
+                  className="overflow-hidden rounded-2xl border border-white/10"
+                  style={{ backgroundColor: level.bgColor }}
                 >
-                  <div
-                    className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl"
-                    style={{ backgroundColor: level.color + '33' }}
+                  <button
+                    onClick={() => toggleLevel(level.id)}
+                    className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-white/5"
                   >
-                    {allDone ? '✅' : level.icon}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs text-gray-500">CH.{level.id}</span>
-                      {allDone && <span className="text-xs text-emerald-400">Complete</span>}
+                    <div
+                      className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl"
+                      style={{ backgroundColor: level.color + '33' }}
+                    >
+                      {allDone ? '✅' : level.icon}
                     </div>
-                    <h3 className="text-lg font-bold">{level.title}</h3>
-                    <p className="text-sm text-gray-400">{level.subtitle}</p>
-                  </div>
-                  <span
-                    className={`text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                  >
-                    ▼
-                  </span>
-                </button>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs text-gray-500">CH.{level.id}</span>
+                        {allDone && <span className="text-xs text-emerald-400">✓</span>}
+                      </div>
+                      <h3 className="text-lg font-bold">{level.title}</h3>
+                      <p className="text-sm text-gray-400">{level.subtitle}</p>
+                    </div>
+                    <span
+                      className={`text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    >
+                      ▼
+                    </span>
+                  </button>
 
-                {/* rendered even when collapsed so the text is crawlable */}
-                <div className={`px-5 pb-5${isOpen ? '' : ' hidden'}`}>
-                  <p className="mb-4 pl-16 text-sm italic text-gray-400">{level.intro}</p>
+                  {/* rendered even when collapsed so the text is crawlable */}
+                  <div className={`px-5 pb-5${isOpen ? '' : ' hidden'}`}>
+                    <p className="mb-4 pl-16 text-sm italic text-gray-400">{level.intro}</p>
                     <div className="space-y-3">
                       {level.sections.map((section) => {
                         const open = openSections[section.id];
@@ -465,11 +560,6 @@ export default function RWA101Page() {
                                 <h4 className="text-sm font-semibold">{section.title}</h4>
                                 {!open && <p className="mt-1 text-xs text-gray-500">{section.why}</p>}
                               </div>
-                              {section.critical && (
-                                <span className="rounded bg-red-500/20 px-2 py-0.5 text-xs text-red-300">
-                                  Important
-                                </span>
-                              )}
                               <span
                                 className={`text-sm text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`}
                               >
@@ -501,7 +591,7 @@ export default function RWA101Page() {
                     {level.sources && (
                       <div className="mt-4 rounded-xl border border-white/5 bg-black/20 p-4">
                         <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                          Chapter {level.id} sources
+                          {fmt(ui.chapterSources, { n: level.id })}
                         </div>
                         <div className="grid gap-1.5 text-xs md:grid-cols-2">
                           {level.sources.map((s) => (
@@ -518,113 +608,106 @@ export default function RWA101Page() {
                         </div>
                       </div>
                     )}
-                </div>
-              </motion.div>
-            );
-          })}
+                  </div>
+                </motion.div>
+              );
+            })}
 
-          {/* quiz chapter */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="overflow-hidden rounded-2xl border border-teal-500/20"
-            style={{ backgroundColor: '#0a2c2c' }}
-          >
-            <button
-              onClick={() => toggleLevel('quiz')}
-              className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-white/5"
+            {/* quiz chapter */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="overflow-hidden rounded-2xl border border-teal-500/20"
+              style={{ backgroundColor: '#0a2c2c' }}
             >
-              <div
-                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl"
-                style={{ backgroundColor: '#14b8a633' }}
+              <button
+                onClick={() => toggleLevel('quiz')}
+                className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-white/5"
               >
-                🎓
+                <div
+                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl"
+                  style={{ backgroundColor: '#14b8a633' }}
+                >
+                  🎓
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="font-mono text-xs text-gray-500">CH.10</span>
+                  <h3 className="text-lg font-bold">{ui.quizChapterTitle}</h3>
+                  <p className="text-sm text-gray-400">
+                    {fmt(ui.quizChapterSubtitle, { n: quiz.length, pass: PASS_MARK })}
+                  </p>
+                </div>
+                <span
+                  className={`text-gray-500 transition-transform duration-300 ${openLevels.quiz ? 'rotate-180' : ''}`}
+                >
+                  ▼
+                </span>
+              </button>
+              <div className={`px-5 pb-5${openLevels.quiz ? '' : ' hidden'}`}>
+                <p className="mb-4 pl-16 text-sm italic text-gray-400">{ui.quizIntro}</p>
+                <Quiz />
               </div>
-              <div className="min-w-0 flex-1">
-                <span className="font-mono text-xs text-gray-500">CH.10</span>
-                <h3 className="text-lg font-bold">Quiz — Test Your RWA Knowledge</h3>
-                <p className="text-sm text-gray-400">
-                  {QUIZ.length} questions · pass mark {PASS_MARK}/{QUIZ.length} · certificate &ldquo;RWA Explorer&rdquo;
-                </p>
-              </div>
-              <span
-                className={`text-gray-500 transition-transform duration-300 ${openLevels.quiz ? 'rotate-180' : ''}`}
-              >
-                ▼
-              </span>
-            </button>
-            <div className={`px-5 pb-5${openLevels.quiz ? '' : ' hidden'}`}>
-              <p className="mb-4 pl-16 text-sm italic text-gray-400">
-                Ten questions covering everything from the three models to ERC-8056 and the risk list. Answers are
-                saved as you go.
-              </p>
-              <Quiz />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* cross-link */}
-      <section className="px-4 pb-12">
-        <div className="container mx-auto max-w-4xl">
-          <Link
-            href="/courses/dn404"
-            className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-purple-500/30 hover:bg-white/[0.05]"
-          >
-            <span className="text-4xl">🦄</span>
-            <div className="flex-1">
-              <div className="text-xs uppercase tracking-wide text-gray-500">Next rabbit hole</div>
-              <div className="font-bold">DN404: NFT Ownership Reimagined</div>
-              <div className="text-sm text-gray-400">
-                How a pixel unicorn ends up paying you in Nvidia — the standard behind the Stock Back model.
-              </div>
-            </div>
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent opacity-80 transition group-hover:opacity-100">
-              →
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      {/* sources */}
-      <section className="border-t border-white/5 px-4 py-12">
-        <div className="container mx-auto max-w-4xl">
-          <h3 className="mb-4 text-lg font-bold">📚 Sources &amp; Further Reading</h3>
-          <div className="grid gap-3 text-sm md:grid-cols-2">
-            {[
-              ['SEC Guidance on Tokenized Securities (Jan 2026)', 'https://www.sec.gov/newsroom/speeches-statements'],
-              ['DefiLlama RWA Dashboard', 'https://defillama.com/protocols/RWA'],
-              ['DefiLlama — Robinhood Chain', 'https://defillama.com/chain/robinhood-chain'],
-              ['RWA.xyz — live market data', 'https://www.rwa.xyz/'],
-              ['Securitize', 'https://securitize.io/'],
-              ['Ondo Finance', 'https://ondo.finance/'],
-              ['Dinari (dShares)', 'https://dinari.com/'],
-              ['Robinhood Stock Tokens', 'https://robinhood.com/us/en/stock-tokens/'],
-              ['Robinhood Chain Stock Token Documentation', 'https://docs.robinhood.com/chain/'],
-              ['$FUNI — funi.art', 'https://funi.art/'],
-              ['UniPump Waitlist', 'https://unipump.fun/waitlist/'],
-              ['RWA404', 'https://rwa404.app/'],
-              ['Quotrons', 'https://www.quotrons.cash/'],
-              ['StonkBrokers', 'https://www.stonkbrokers.cash/'],
-            ].map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-emerald-400 transition hover:text-emerald-300"
-              >
-                {label} →
-              </a>
-            ))}
+            </motion.div>
           </div>
-          <p className="mt-8 text-xs leading-relaxed text-gray-600">
-            Educational content only. Not financial advice. Tokenized stocks are economic exposure, not shares —
-            figures are as of August 2026 and change constantly. Do your own research.
-          </p>
-        </div>
-      </section>
-    </main>
+        </section>
+
+        {/* cross-link */}
+        <section className="px-4 pb-12">
+          <div className="container mx-auto max-w-4xl">
+            <Link
+              href="/courses/dn404"
+              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-purple-500/30 hover:bg-white/[0.05]"
+            >
+              <span className="text-4xl">🦄</span>
+              <div className="flex-1">
+                <div className="text-xs uppercase tracking-wide text-gray-500">{ui.nextEyebrow}</div>
+                <div className="font-bold">{ui.nextTitle}</div>
+                <div className="text-sm text-gray-400">{ui.nextBody}</div>
+              </div>
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent opacity-80 transition group-hover:opacity-100">
+                →
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        {/* sources */}
+        <section className="border-t border-white/5 px-4 py-12">
+          <div className="container mx-auto max-w-4xl">
+            <h3 className="mb-4 text-lg font-bold">{ui.sourcesHeading}</h3>
+            <div className="grid gap-3 text-sm md:grid-cols-2">
+              {[
+                ['SEC Guidance on Tokenized Securities (Jan 2026)', 'https://www.sec.gov/newsroom/speeches-statements'],
+                ['DefiLlama RWA Dashboard', 'https://defillama.com/protocols/RWA'],
+                ['DefiLlama — Robinhood Chain', 'https://defillama.com/chain/robinhood-chain'],
+                ['RWA.xyz — live market data', 'https://www.rwa.xyz/'],
+                ['Securitize', 'https://securitize.io/'],
+                ['Ondo Finance', 'https://ondo.finance/'],
+                ['Dinari (dShares)', 'https://dinari.com/'],
+                ['Robinhood Stock Tokens', 'https://robinhood.com/us/en/stock-tokens/'],
+                ['Robinhood Chain Stock Token Documentation', 'https://docs.robinhood.com/chain/'],
+                ['$FUNI — funi.art', 'https://funi.art/'],
+                ['UniPump Waitlist', 'https://unipump.fun/waitlist/'],
+                ['RWA404', 'https://rwa404.app/'],
+                ['Quotrons', 'https://www.quotrons.cash/'],
+                ['StonkBrokers', 'https://www.stonkbrokers.cash/'],
+              ].map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 transition hover:text-emerald-300"
+                >
+                  {label} →
+                </a>
+              ))}
+            </div>
+            <p className="mt-8 text-xs leading-relaxed text-gray-600">{ui.disclaimer}</p>
+          </div>
+        </section>
+      </main>
+    </CourseContext.Provider>
   );
 }
