@@ -36,11 +36,30 @@ const securityHeaders = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
 ];
 
+// Courses that are announced but not built yet. They were live links into a
+// 404 for months, so search engines and bookmarks still point at them. A
+// temporary redirect keeps those visitors on the site and tells crawlers the
+// URL is expected to come back, rather than serving a dead end.
+const UNBUILT_COURSES = [
+  'pavel-durov',
+  'ton-history',
+  'ton-technology',
+  'memecoin-trading',
+  'ton-gifts',
+];
+
 const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
+  },
+  async redirects() {
+    return UNBUILT_COURSES.map((slug) => ({
+      source: `/courses/${slug}`,
+      destination: '/',
+      permanent: false,
+    }));
   },
 };
 
