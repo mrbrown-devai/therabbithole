@@ -1,0 +1,39 @@
+name: Refresh course metrics
+
+# Weekly on Monday 06:00 UTC, plus a manual trigger for when a number moves
+# and you don't want to wait for the schedule.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch latest figures from DefiLlama
+        run: node scripts/update-metrics.mjs
+
+      - name: Commit if anything moved
+        run: |
+          if git diff --quiet -- data/metrics.json; then
+            echo "No change in metrics — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "rabbit-hole-metrics"
+          git config user.email "actions@github.com"
+          git add data/metrics.json
+          git commit -m "chore: refresh course metrics from DefiLlama
+
+          Automated weekly update. Values are baked in at build time, so a
+          DefiLlama outage never reaches a visitor."
+          git push

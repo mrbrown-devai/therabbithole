@@ -1,6 +1,8 @@
 // RWA 101: Tokenized Stocks — course content
 // Source: The Rabbit Hole course draft. Figures dated August 2026 unless noted.
 
+import { TOKENS } from '../../../lib/metrics';
+
 export const COURSE_ID = 'rwa-101-progress';
 
 export const TICKERS = [
@@ -16,11 +18,24 @@ export const TICKERS = [
   { sym: 'SPCX', name: 'SpaceX' },
 ];
 
+// The first two come from DefiLlama and refresh weekly (see scripts/update-metrics.mjs).
+// The last two are point-in-time figures with no equivalent live feed, so they
+// stay static and carry their own date.
 export const MARKET_STATS = [
-  { label: 'On-chain RWA market cap', value: '$34.4B', note: 'DefiLlama, Aug 2026' },
-  { label: 'Tokenized US Treasuries', value: '$12.88B', note: 'largest category' },
-  { label: 'Tokenized equities YoY', value: '+2,878%', note: '$32M → $963M' },
-  { label: 'Asset issuers', value: '217', note: 'and growing' },
+  {
+    label: 'RWA TVL on-chain',
+    value: TOKENS.rwaTvl,
+    note: `DefiLlama · ${TOKENS.asOf}`,
+    live: true,
+  },
+  {
+    label: 'RWA protocols tracked',
+    value: TOKENS.rwaProtocolCount,
+    note: 'DefiLlama · updated weekly',
+    live: true,
+  },
+  { label: 'Tokenized US Treasuries', value: '$12.88B', note: 'largest category · Aug 2026' },
+  { label: 'Tokenized equities YoY', value: '+2,878%', note: '$32M → $963M · Jan 2026' },
 ];
 
 export const LEVELS = [
@@ -165,7 +180,7 @@ export const LEVELS = [
         title: 'The Numbers',
         why: 'Context for how much real activity sits on this chain.',
         content:
-          'Key stats (DefiLlama, August 2026):\n\n- **$603.76M** TVL\n- **$712.59M** stablecoin market cap\n- **$136.79M** RWA active market cap in tokenized stocks\n- **$611.86M** DEX volume in 24h\n- **$1.764B** bridged TVL',
+          'Key stats (DefiLlama, {{asOf}}):\n\n- **{{robinhoodTvl}}** TVL\n- **{{robinhoodStables}}** stablecoin market cap\n- **$136.79M** RWA active market cap in tokenized stocks\n- **$611.86M** DEX volume in 24h\n- **$1.764B** bridged TVL',
       },
       {
         id: '4-2',

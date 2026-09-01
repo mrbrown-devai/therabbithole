@@ -1,0 +1,23 @@
+{
+  "updatedAt": "2026-09-01T21:59:24.726Z",
+  "source": "DefiLlama",
+  "metrics": {
+    "rwaTvl": {
+      "value": 27529749511.878803,
+      "count": 155,
+      "fetchedAt": "2026-09-01T21:59:24.639Z"
+    },
+    "robinhoodChain": {
+      "value": 731869844.8840982,
+      "fetchedAt": "2026-09-01T21:59:24.659Z"
+    },
+    "robinhoodStables": {
+      "value": 820010842.9008671,
+      "fetchedAt": "2026-09-01T21:59:24.710Z"
+    },
+    "tonTvl": {
+      "value": 49491675.61489474,
+      "fetchedAt": "2026-09-01T21:59:24.725Z"
+    }
+  }
+}

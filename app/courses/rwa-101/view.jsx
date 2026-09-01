@@ -14,6 +14,7 @@ import {
   UI,
 } from './content';
 import TRANSLATIONS from './translations';
+import { applyMetrics } from '../../../lib/metrics';
 import {
   LANGUAGES,
   mergeTranslation,
@@ -37,7 +38,8 @@ function fmt(template, vars) {
 /* ---------------------------------------------------------------- markdown */
 
 function renderContent(text) {
-  return text.split('\n').map((line, i) => {
+  // {{tokens}} resolve to the weekly DefiLlama figures
+  return applyMetrics(text).split('\n').map((line, i) => {
     const html = line
       .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em class="text-gray-300">$1</em>')
