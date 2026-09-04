@@ -520,6 +520,7 @@ export const UI = {
   badgeLevel: 'Beginner → Intermediate',
   badgeQuiz: 'Interactive quiz',
   tickerNote: 'on-chain',
+  videoFallback: 'Your browser does not support the video tag.',
   chapterSources: 'Chapter {n} sources',
   quizChapterTitle: 'Quiz — Test Your RWA Knowledge',
   quizChapterSubtitle: '{n} questions · pass mark {pass}/{n} · certificate “RWA Explorer”',

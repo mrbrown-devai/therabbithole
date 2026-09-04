@@ -470,6 +470,18 @@ export default function RWA101Page() {
               <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-500">{ui.heroLede}</p>
             </div>
 
+            <div className="mb-8 overflow-hidden rounded-2xl border border-white/10 bg-black/50">
+              <video
+                controls
+                preload="metadata"
+                className="aspect-video w-full"
+                poster="/videos/funi-stock-back-poster.jpg"
+              >
+                <source src="/videos/funi-stock-back-kinetic.mp4" type="video/mp4" />
+                {ui.videoFallback}
+              </video>
+            </div>
+
             <div className="flex flex-wrap justify-center gap-3 text-sm">
               <span className="rounded-full border border-emerald-500/30 bg-emerald-500/20 px-3 py-1 text-emerald-300">
                 {ui.badgeChapters}

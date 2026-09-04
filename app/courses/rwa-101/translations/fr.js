@@ -13,6 +13,7 @@ const t = {
     badgeLevel: 'Débutant → Intermédiaire',
     badgeQuiz: 'Quiz interactif',
     tickerNote: 'on-chain',
+    videoFallback: 'Ton navigateur ne prend pas en charge la lecture vidéo.',
     chapterSources: 'Sources du chapitre {n}',
     quizChapterTitle: 'Quiz — teste tes connaissances RWA',
     quizChapterSubtitle:
