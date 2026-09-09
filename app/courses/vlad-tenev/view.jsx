@@ -33,11 +33,11 @@ function inline(line) {
     .replace(/\*(.*?)\*/g, '<em class="text-gray-300">$1</em>')
     .replace(
       /`(.*?)`/g,
-      '<code class="px-1.5 py-0.5 bg-white/10 rounded text-cyan-300 text-sm font-mono">$1</code>'
+      '<code class="px-1.5 py-0.5 bg-white/10 rounded text-[#CCFF00] text-sm font-mono">$1</code>'
     )
     .replace(
       /\[(.*?)\]\((.*?)\)/g,
-      '<a href="$2" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">$1</a>'
+      '<a href="$2" class="text-[#00C805] hover:text-[#CCFF00] underline underline-offset-2">$1</a>'
     );
 }
 
@@ -49,7 +49,7 @@ function renderContent(text) {
         <div key={i} className="my-1 ml-4 flex items-start gap-1">
           <span
             dangerouslySetInnerHTML={{
-              __html: '<span class="text-cyan-400 mr-2">•</span>' + html.replace(/^-\s*/, ''),
+              __html: '<span class="text-[#00C805] mr-2">•</span>' + html.replace(/^-\s*/, ''),
             }}
           />
         </div>
@@ -96,11 +96,11 @@ function Timeline({ items }) {
       {items.map((item, i) => (
         <div key={item.title} className="flex gap-4">
           <div className="flex flex-col items-center">
-            <div className="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-cyan-400" />
+            <div className="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-[#00C805]" />
             {i < items.length - 1 && <div className="w-px flex-1 bg-white/10" />}
           </div>
           <div className="pb-5">
-            <div className="font-mono text-xs uppercase tracking-wide text-cyan-400/80">
+            <div className="font-mono text-xs uppercase tracking-wide text-[#CCFF00]/80">
               {item.date}
             </div>
             <div className="mt-0.5 text-sm font-semibold text-white">{item.title}</div>
@@ -119,7 +119,7 @@ function Timeline({ items }) {
 function Callout({ variant, content }) {
   const tone =
     variant === 'important'
-      ? 'border-cyan-500/30 bg-cyan-500/10'
+      ? 'border-[#00C805]/30 bg-[#00C805]/10'
       : 'border-white/10 bg-white/5';
   return (
     <div className={`my-4 rounded-xl border p-4 text-sm leading-relaxed ${tone}`}>
@@ -192,9 +192,9 @@ function Quiz() {
                 const isChosen = chosen === ai;
                 const isCorrect = ai === q.correct;
                 let cls = 'border-white/10 bg-white/[0.02] hover:border-white/20';
-                if (submitted && isCorrect) cls = 'border-emerald-500/50 bg-emerald-500/10';
-                else if (submitted && isChosen) cls = 'border-red-500/50 bg-red-500/10';
-                else if (isChosen) cls = 'border-cyan-500/50 bg-cyan-500/10';
+                if (submitted && isCorrect) cls = 'border-[#00C805]/60 bg-[#00C805]/15';
+                else if (submitted && isChosen) cls = 'border-[#FF5C5C]/60 bg-[#FF5C5C]/10';
+                else if (isChosen) cls = 'border-[#00C805]/60 bg-[#00C805]/10';
                 return (
                   <button
                     key={ai}
@@ -225,7 +225,7 @@ function Quiz() {
           className={`w-full rounded-xl py-3 font-semibold transition ${
             answeredCount < quiz.length
               ? 'cursor-not-allowed bg-white/5 text-gray-600'
-              : 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90'
+              : 'bg-gradient-to-r from-[#00C805] to-[#CCFF00] text-[#110E08] hover:opacity-90'
           }`}
         >
           {answeredCount < quiz.length
@@ -235,7 +235,7 @@ function Quiz() {
       ) : (
         <div
           className={`rounded-xl border p-5 text-center ${
-            passed ? 'border-emerald-500/30 bg-emerald-500/10' : 'border-amber-500/30 bg-amber-500/10'
+            passed ? 'border-[#00C805]/40 bg-[#00C805]/10' : 'border-amber-500/30 bg-amber-500/10'
           }`}
         >
           <div className="text-3xl font-black text-white">
@@ -334,7 +334,7 @@ export default function VladTenevPage() {
             <div className="flex items-center gap-3">
               <div className="h-2 w-20 overflow-hidden rounded-full bg-white/10 sm:w-24">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-[#00C805] to-[#CCFF00] transition-all duration-500"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -347,28 +347,28 @@ export default function VladTenevPage() {
         {/* hero */}
         <section className="relative overflow-hidden px-4 py-16">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/3 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
-            <div className="absolute bottom-0 right-1/3 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
+            <div className="absolute left-1/3 top-0 h-96 w-96 rounded-full bg-[#00C805]/10 blur-3xl" />
+            <div className="absolute bottom-0 right-1/3 h-96 w-96 rounded-full bg-[#CCFF00]/10 blur-3xl" />
           </div>
           <div className="container relative z-10 mx-auto max-w-4xl text-center">
             <span className="mb-4 block text-6xl">🏹</span>
-            <h1 className="mb-3 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-4xl font-black text-transparent md:text-5xl">
+            <h1 className="mb-3 bg-gradient-to-r from-[#00C805] to-[#CCFF00] bg-clip-text text-4xl font-black text-transparent md:text-5xl">
               {ui.heroTitle}
             </h1>
             <p className="text-xl text-gray-400">{ui.heroSubtitle}</p>
             <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-500">{ui.heroLede}</p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-              <span className="rounded-full border border-cyan-500/30 bg-cyan-500/20 px-3 py-1 text-cyan-300">
+              <span className="rounded-full border border-[#00C805]/40 bg-[#00C805]/15 px-3 py-1 text-[#00C805]">
                 {ui.badgeChapters}
               </span>
-              <span className="rounded-full border border-blue-500/30 bg-blue-500/20 px-3 py-1 text-blue-300">
+              <span className="rounded-full border border-[#CCFF00]/40 bg-[#CCFF00]/15 px-3 py-1 text-[#CCFF00]">
                 {ui.badgeDuration}
               </span>
-              <span className="rounded-full border border-sky-500/30 bg-sky-500/20 px-3 py-1 text-sky-300">
+              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-300">
                 {ui.badgeLevel}
               </span>
-              <span className="rounded-full border border-teal-500/30 bg-teal-500/20 px-3 py-1 text-teal-300">
+              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-300">
                 {ui.badgeQuiz}
               </span>
             </div>
@@ -442,7 +442,7 @@ export default function VladTenevPage() {
                                   toggleComplete(section.id);
                                 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="h-5 w-5 flex-shrink-0 rounded accent-cyan-500"
+                                className="h-5 w-5 flex-shrink-0 rounded accent-[#00C805]"
                               />
                               <div className="flex-1">
                                 <h4 className="text-sm font-semibold">{section.title}</h4>
@@ -476,7 +476,7 @@ export default function VladTenevPage() {
                               {section.link && (
                                 <Link
                                   href={section.link.href}
-                                  className="mt-2 inline-block text-sm text-cyan-400 transition hover:text-cyan-300"
+                                  className="mt-2 inline-block text-sm text-[#00C805] transition hover:text-[#CCFF00]"
                                 >
                                   {section.link.label}
                                 </Link>
@@ -499,7 +499,7 @@ export default function VladTenevPage() {
                               href={s.href}
                               target={s.href.startsWith('/') ? undefined : '_blank'}
                               rel="noopener noreferrer"
-                              className="text-gray-400 transition hover:text-cyan-400"
+                              className="text-gray-400 transition hover:text-[#00C805]"
                             >
                               {s.label} →
                             </a>
@@ -517,8 +517,8 @@ export default function VladTenevPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="overflow-hidden rounded-2xl border border-teal-500/20"
-              style={{ backgroundColor: '#0a2c2c' }}
+              className="overflow-hidden rounded-2xl border border-[#00C805]/20"
+              style={{ backgroundColor: '#0d1f0d' }}
             >
               <button
                 onClick={() => toggleLevel('quiz')}
@@ -526,7 +526,7 @@ export default function VladTenevPage() {
               >
                 <div
                   className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl"
-                  style={{ backgroundColor: '#14b8a633' }}
+                  style={{ backgroundColor: '#00C80533' }}
                 >
                   🎓
                 </div>
@@ -556,7 +556,7 @@ export default function VladTenevPage() {
           <div className="container mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
             <Link
               href="/courses/robinhood-101"
-              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-cyan-500/30 hover:bg-white/[0.05]"
+              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-[#00C805]/40 hover:bg-white/[0.05]"
             >
               <span className="text-4xl">🏦</span>
               <div className="flex-1">
@@ -567,7 +567,7 @@ export default function VladTenevPage() {
             </Link>
             <Link
               href="/courses/pavel-durov"
-              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-blue-500/30 hover:bg-white/[0.05]"
+              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-[#CCFF00]/40 hover:bg-white/[0.05]"
             >
               <span className="text-4xl">👤</span>
               <div className="flex-1">
@@ -601,7 +601,7 @@ export default function VladTenevPage() {
                   href={href}
                   target={href.startsWith('/') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  className="text-gray-400 transition hover:text-cyan-400"
+                  className="text-gray-400 transition hover:text-[#00C805]"
                 >
                   {label} →
                 </a>

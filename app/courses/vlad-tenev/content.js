@@ -206,8 +206,8 @@ export const LEVELS = [
     title: 'The Buy Button',
     subtitle: 'January 2021 · GameStop, Congress, IPO',
     icon: '🛑',
-    color: '#f43f5e',
-    bgColor: '#2c1420',
+    color: '#FF5C5C',
+    bgColor: '#2c1416',
     intro:
       'Back to the cold open, now with everything you need to read it. The constraint that forced his hand was not in his app.',
     sections: [
@@ -265,8 +265,8 @@ export const LEVELS = [
     title: 'Rebuilding the Rails',
     subtitle: '2021 to 2026 · From broker to blockchain',
     icon: '🛤️',
-    color: '#8b5cf6',
-    bgColor: '#1f142c',
+    color: '#00C805',
+    bgColor: '#0d2213',
     intro:
       'So he goes after the plumbing. Read this chapter as a consequence of chapter 5, not as a new topic.',
     sections: [
@@ -325,8 +325,8 @@ export const LEVELS = [
     title: 'The Pattern',
     subtitle: 'What we can learn',
     icon: '🔁',
-    color: '#06b6d4',
-    bgColor: '#0d2630',
+    color: '#CCFF00',
+    bgColor: '#20240d',
     intro:
       'The closing argument, and the reason this is worth a course rather than a profile.',
     sections: [
