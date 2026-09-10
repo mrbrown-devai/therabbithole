@@ -69,6 +69,17 @@ const METRICS = {
     return { value: data.total24h };
   },
 
+  // Fees earned by the ~150 apps deployed on the chain. Deliberately NOT the
+  // chain's own sequencer fees, which DefiLlama reports separately and much
+  // lower; Robinhood 101 chapter 9 turns on the reader knowing the difference.
+  async robinhoodAppFees() {
+    const data = await getJson(
+      'https://api.llama.fi/overview/fees/robinhood-chain?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true'
+    );
+    if (typeof data.total24h !== 'number') throw new Error('no total24h in response');
+    return { value: data.total24h };
+  },
+
   async robinhoodBridged() {
     // This endpoint is keyed by chain name, not a list, and reports the totals
     // as strings — hence the Number() rather than trusting the shape.
