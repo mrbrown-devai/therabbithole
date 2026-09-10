@@ -353,9 +353,6 @@ export default function VladTenevPage() {
             image. */}
         <section className="px-4 pt-6">
           <div className="container mx-auto max-w-5xl">
-            <h1 className="sr-only">{ui.heroTitle}</h1>
-            <p className="sr-only">{ui.heroSubtitle}</p>
-            <p className="sr-only">{ui.heroLede}</p>
             <div className="overflow-hidden rounded-2xl border border-white/10">
               <Image
                 src="/covers/robinhood-101.webp"
@@ -366,6 +363,18 @@ export default function VladTenevPage() {
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 className="h-auto w-full"
               />
+            </div>
+
+            {/* The cover sets its own copy in type sized for 1600px wide. On a
+                phone that shrinks past legibility, so the same words render as
+                real text below it and collapse to sr-only once the image is
+                big enough to read. */}
+            <div className="mt-6 text-center md:sr-only">
+              <h1 className="text-2xl font-black text-white">{ui.heroTitle}</h1>
+              <p className="mt-1 text-base text-gray-400">{ui.heroSubtitle}</p>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-gray-500">
+                {ui.heroLede}
+              </p>
             </div>
           </div>
         </section>
