@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { COURSE_ID, LEVELS, PASS_MARK, QUIZ, SCALE_STATS, UI } from './content';
 import TRANSLATIONS from './translations';
 import {
@@ -344,33 +345,25 @@ export default function VladTenevPage() {
           </div>
         </header>
 
-        {/* hero */}
-        <section className="relative overflow-hidden px-4 py-16">
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/3 top-0 h-96 w-96 rounded-full bg-[#00C805]/10 blur-3xl" />
-            <div className="absolute bottom-0 right-1/3 h-96 w-96 rounded-full bg-[#CCFF00]/10 blur-3xl" />
-          </div>
-          <div className="container relative z-10 mx-auto max-w-4xl text-center">
-            <span className="mb-4 block text-6xl">🏹</span>
-            <h1 className="mb-3 bg-gradient-to-r from-[#00C805] to-[#CCFF00] bg-clip-text text-4xl font-black text-transparent md:text-5xl">
-              {ui.heroTitle}
-            </h1>
-            <p className="text-xl text-gray-400">{ui.heroSubtitle}</p>
-            <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-500">{ui.heroLede}</p>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-              <span className="rounded-full border border-[#00C805]/40 bg-[#00C805]/15 px-3 py-1 text-[#00C805]">
-                {ui.badgeChapters}
-              </span>
-              <span className="rounded-full border border-[#CCFF00]/40 bg-[#CCFF00]/15 px-3 py-1 text-[#CCFF00]">
-                {ui.badgeDuration}
-              </span>
-              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-300">
-                {ui.badgeLevel}
-              </span>
-              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-300">
-                {ui.badgeQuiz}
-              </span>
+        {/* hero — the cover art carries the title, subtitle and stat row, so the
+            text hero it replaces would only repeat it. The h1 and lede stay in
+            the DOM for search engines and screen readers, which cannot read the
+            image. */}
+        <section className="px-4 pt-6">
+          <div className="container mx-auto max-w-5xl">
+            <h1 className="sr-only">{ui.heroTitle}</h1>
+            <p className="sr-only">{ui.heroSubtitle}</p>
+            <p className="sr-only">{ui.heroLede}</p>
+            <div className="overflow-hidden rounded-2xl border border-white/10">
+              <Image
+                src="/covers/vlad-tenev.webp"
+                alt={`${ui.heroTitle} — ${ui.heroSubtitle}`}
+                width={1600}
+                height={800}
+                priority
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="h-auto w-full"
+              />
             </div>
           </div>
         </section>
