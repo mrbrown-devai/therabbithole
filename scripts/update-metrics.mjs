@@ -61,6 +61,25 @@ const METRICS = {
     return { value: chain.totalCirculatingUSD?.peggedUSD ?? 0 };
   },
 
+  async robinhoodDexVolume() {
+    const data = await getJson(
+      'https://api.llama.fi/overview/dexs/robinhood-chain?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true'
+    );
+    if (typeof data.total24h !== 'number') throw new Error('no total24h in response');
+    return { value: data.total24h };
+  },
+
+  async robinhoodBridged() {
+    // This endpoint is keyed by chain name, not a list, and reports the totals
+    // as strings — hence the Number() rather than trusting the shape.
+    const chains = await getJson('https://api.llama.fi/chain-assets/chains');
+    const chain = chains?.['Robinhood Chain'];
+    if (!chain) throw new Error('Robinhood Chain not in chain-assets data');
+    const value = Number(chain.total?.total);
+    if (!Number.isFinite(value) || value <= 0) throw new Error('no bridged asset total');
+    return { value };
+  },
+
   async tonTvl() {
     const chains = await getJson('https://api.llama.fi/v2/chains');
     const chain = chains.find((c) => c.name === 'TON');

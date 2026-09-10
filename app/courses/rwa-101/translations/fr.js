@@ -158,7 +158,7 @@ const t = {
           title: 'Les chiffres',
           why: 'Pour situer le volume d’activité réelle sur cette chaîne.',
           content:
-            "Chiffres clés (DefiLlama, {{asOf}}) :\n\n- **{{robinhoodTvl}}** de TVL\n- **{{robinhoodStables}}** de capitalisation stablecoin\n- **136,79 M$** de capitalisation RWA active en actions tokenisées\n- **611,86 M$** de volume DEX sur 24 h\n- **1,764 Md$** de TVL bridgée",
+            "Chiffres clés (DefiLlama, {{asOf}}) :\n\n- **{{robinhoodTvl}}** de TVL\n- **{{robinhoodStables}}** de capitalisation stablecoin\n- **213,44 M$** de capitalisation RWA active en actions tokenisées\n- **{{robinhoodDexVolume}}** de volume DEX sur 24 h\n- **{{robinhoodBridged}}** de TVL bridgée",
         },
         {
           title: 'Comment fonctionnent les tokens actions ERC-8056',

@@ -180,7 +180,7 @@ export const LEVELS = [
         title: 'The Numbers',
         why: 'Context for how much real activity sits on this chain.',
         content:
-          'Key stats (DefiLlama, {{asOf}}):\n\n- **{{robinhoodTvl}}** TVL\n- **{{robinhoodStables}}** stablecoin market cap\n- **$136.79M** RWA active market cap in tokenized stocks\n- **$611.86M** DEX volume in 24h\n- **$1.764B** bridged TVL',
+          'Key stats (DefiLlama, {{asOf}}):\n\n- **{{robinhoodTvl}}** TVL\n- **{{robinhoodStables}}** stablecoin market cap\n- **$213.44M** RWA active market cap in tokenized stocks\n- **{{robinhoodDexVolume}}** DEX volume in 24h\n- **{{robinhoodBridged}}** bridged TVL',
       },
       {
         id: '4-2',
