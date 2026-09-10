@@ -329,13 +329,13 @@ const t = {
   quiz: [
     {
       q: 'Où est né Vlad Tenev ?',
-      a: ['Sofia, Bulgarie', 'Varna, Bulgarie', 'Moscou, Russie', 'Washington DC, États-Unis'],
+      a: ['Sofia, Bulgarie', 'Moscou, Russie', 'Varna, Bulgarie', 'Washington DC, États-Unis'],
       explain:
         "Il est né à Varna, sur la côte bulgare, en février 1987. Ses parents ont émigré les premiers et il les a rejoints aux États-Unis à cinq ans.",
     },
     {
       q: 'Que faisaient ses deux parents après avoir émigré aux États-Unis ?',
-      a: ['Ils tenaient un restaurant', 'Ils travaillaient à la Banque mondiale', 'Ils enseignaient à Stanford', 'Ils ont fondé un hedge fund'],
+      a: ['Ils travaillaient à la Banque mondiale', 'Ils tenaient un restaurant', 'Ils enseignaient à Stanford', 'Ils ont fondé un hedge fund'],
       explain:
         "Tous deux étaient économistes et ont fini par travailler à la Banque mondiale, dans la région de Washington DC.",
     },
@@ -345,8 +345,7 @@ const t = {
         'Un réseau social pour investisseurs',
         'Des logiciels de trading à faible latence pour les firmes de trading haute fréquence',
         'Une plateforme d’échange de cryptomonnaies',
-        'Un robo-advisor pour comptes retraite',
-      ],
+        'Un robo-advisor pour comptes retraite'],
       explain:
         "Celeris, puis Chronos Research. Ils vendaient de la vitesse aux firmes professionnelles contre lesquelles Robinhood serait ensuite positionné — c'est exactement comme ça qu'ils ont repéré l'écart tarifaire.",
     },
@@ -354,21 +353,19 @@ const t = {
       q: "Quelle observation a directement mené à Robinhood ?",
       a: [
         'Les particuliers ne comprenaient pas la bourse',
-        'Les firmes professionnelles ne payaient quasiment rien par ordre alors que les particuliers payaient 7 à 10 dollars',
         'Les applications mobiles étaient plus rentables que les sites web',
         'Les fonds indiciels battaient les gérants actifs',
-      ],
+        'Les firmes professionnelles ne payaient quasiment rien par ordre alors que les particuliers payaient 7 à 10 dollars'],
       explain:
         "Même marché, même infrastructure, deux grilles tarifaires différentes. L'écart s'expliquait par l'accès, pas par le coût.",
     },
     {
       q: "Si Robinhood ne facture aucune commission, d'où viennent les revenus ?",
       a: [
-        'De subventions publiques',
         "Du payment for order flow — les teneurs de marché paient pour recevoir les ordres des clients",
+        'De subventions publiques',
         'De la vente des identités des clients',
-        "L'entreprise n'a jamais eu de revenus",
-      ],
+        "L'entreprise n'a jamais eu de revenus"],
       explain:
         "Les teneurs de marché paient le courtier pour que les ordres leur soient acheminés et gagnent sur l'écart. C'est déclaré et courant dans l'industrie, mais cela signifie que le client n'est pas celui qui paie la facture.",
     },
@@ -376,10 +373,9 @@ const t = {
       q: "En janvier 2021, qu'est-ce qui a réellement forcé Robinhood à restreindre l'achat de GameStop ?",
       a: [
         'Une décision de justice',
-        "Un appel de collatéral de la chambre de compensation très supérieur à ce que l'entreprise avait prévu",
         'Des hedge funds ont pris une participation dans Robinhood',
-        "Les serveurs de l'application ont planté",
-      ],
+        "Un appel de collatéral de la chambre de compensation très supérieur à ce que l'entreprise avait prévu",
+        "Les serveurs de l'application ont planté"],
       explain:
         "La contrainte se situait dans la couche de règlement, pas dans l'application. C'est la leçon qui gouverne tout ce que Tenev fait ensuite.",
     },
@@ -387,10 +383,9 @@ const t = {
       q: "Pourquoi l'explication technique n'a-t-elle pas satisfait les utilisateurs de Robinhood ?",
       a: [
         "Parce qu'elle était fausse",
-        "La promesse était la démocratisation, et le produit avait un interrupteur que les utilisateurs ne contrôlaient pas",
         "Personne n'avait entendu parler des chambres de compensation",
         "Robinhood a refusé de s'expliquer",
-      ],
+        "La promesse était la démocratisation, et le produit avait un interrupteur que les utilisateurs ne contrôlaient pas"],
       explain:
         "Une explication juste peut rester une défense inutile. L'interrupteur a été actionné au moment exact où la promesse était mise à l'épreuve.",
     },
@@ -398,32 +393,29 @@ const t = {
       q: 'Quand et où Robinhood Chain a-t-elle lancé son mainnet public ?',
       a: [
         'En juin 2025, à Cannes',
-        'En février 2026, uniquement en ligne',
         'Le 1er juillet 2026, au Old Royal Naval College à Londres',
-        'En janvier 2021, à New York',
-      ],
+        'En février 2026, uniquement en ligne',
+        'En janvier 2021, à New York'],
       explain:
         "Le lancement a eu lieu lors du keynote « The World Is Flat », animé par Tenev avec Johann Kerbrat. Cannes 2025 était l'annonce des actions tokenisées ; février 2026 était le testnet public.",
     },
     {
       q: 'Quel schéma ce cours identifie-t-il comme définissant la carrière de Tenev ?',
       a: [
-        "Il construit des infrastructures pour du trading sérieux et c'est un trafic spéculatif qui arrive",
         'Il copie tout ce que ses concurrents lancent en premier',
         'Il évite complètement les marchés régulés',
-        "Il vend chaque entreprise qu'il fonde en moins de trois ans",
-      ],
+        "Il construit des infrastructures pour du trading sérieux et c'est un trafic spéculatif qui arrive",
+        "Il vend chaque entreprise qu'il fonde en moins de trois ans"],
       explain:
         "Un courtier sans commission pour investisseurs long terme a récolté le short squeeze des meme stocks. Une chaîne pour actions tokenisées a récolté une usine à tokens. Même histoire, quinze ans d'écart.",
     },
     {
       q: "Qu'est-ce que CashCat ?",
       a: [
-        'Le token officiel de la chaîne Robinhood',
         "Un nom envisagé par Tenev et Bhatt avant « Robinhood », ressuscité plus tard en memecoin non affilié sur Robinhood Chain",
+        'Le token officiel de la chaîne Robinhood',
         "La chambre de compensation à l'origine de l'appel de collatéral de 2021",
-        "L'entreprise d'IA de Tenev",
-      ],
+        "L'entreprise d'IA de Tenev"],
       explain:
         "La marque abandonnée est revenue en memecoin communautaire sur sa propre blockchain, atteignant brièvement environ 156 M$ de capitalisation sans aucun lien avec l'entreprise. Robinhood Chain n'a pas de token natif.",
     },

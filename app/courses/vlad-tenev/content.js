@@ -393,15 +393,15 @@ export const LEVELS = [
 export const QUIZ = [
   {
     q: 'Where was Vlad Tenev born?',
-    a: ['Sofia, Bulgaria', 'Varna, Bulgaria', 'Moscow, Russia', 'Washington DC, USA'],
-    correct: 1,
+    a: ['Sofia, Bulgaria', 'Moscow, Russia', 'Varna, Bulgaria', 'Washington DC, USA'],
+    correct: 2,
     explain:
       'He was born in Varna, on the Bulgarian coast, in February 1987. His parents emigrated first and he joined them in the US at five.',
   },
   {
     q: 'What did both of his parents do after emigrating to the United States?',
-    a: ['Ran a restaurant', 'Worked at the World Bank', 'Taught at Stanford', 'Founded a hedge fund'],
-    correct: 1,
+    a: ['Worked at the World Bank', 'Ran a restaurant', 'Taught at Stanford', 'Founded a hedge fund'],
+    correct: 0,
     explain:
       'Both were economists and both ended up working at the World Bank in the Washington DC area.',
   },
@@ -411,8 +411,7 @@ export const QUIZ = [
       'A social network for investors',
       'Low-latency trading software for high-frequency trading firms',
       'A cryptocurrency exchange',
-      'A robo-advisor for retirement accounts',
-    ],
+      'A robo-advisor for retirement accounts'],
     correct: 1,
     explain:
       'Celeris, then Chronos Research. They were selling speed to the professional firms Robinhood would later be positioned against — which is exactly how they spotted the pricing gap.',
@@ -421,23 +420,21 @@ export const QUIZ = [
     q: 'What was the observation that led directly to Robinhood?',
     a: [
       'Retail investors did not understand the stock market',
-      'Professional firms paid effectively nothing per trade while retail paid $7 to $10',
       'Mobile apps were more profitable than websites',
       'Index funds were beating active managers',
-    ],
-    correct: 1,
+      'Professional firms paid effectively nothing per trade while retail paid $7 to $10'],
+    correct: 3,
     explain:
       'Same market, same infrastructure, two different price sheets. The gap was explained by access, not by cost.',
   },
   {
     q: 'If Robinhood charges no commission, where does the revenue come from?',
     a: [
-      'Government subsidies',
       'Payment for order flow — market makers pay to route customer orders',
+      'Government subsidies',
       'Selling customer identities',
-      'It has never made revenue',
-    ],
-    correct: 1,
+      'It has never made revenue'],
+    correct: 0,
     explain:
       'Market makers pay the broker to route orders to them and profit from the spread. It is disclosed and industry-wide, but it means the customer is not the one paying the bill.',
   },
@@ -445,11 +442,10 @@ export const QUIZ = [
     q: 'In January 2021, what actually forced Robinhood to restrict buying GameStop?',
     a: [
       'A court order',
-      'A collateral demand from the clearing house far beyond what the company had planned for',
       'Hedge funds bought a stake in Robinhood',
-      'The app servers crashed',
-    ],
-    correct: 1,
+      'A collateral demand from the clearing house far beyond what the company had planned for',
+      'The app servers crashed'],
+    correct: 2,
     explain:
       'The constraint sat in the settlement layer, not in the app. That is the lesson that drives everything Tenev does afterwards.',
   },
@@ -457,11 +453,10 @@ export const QUIZ = [
     q: 'Why did the technical explanation fail to satisfy Robinhood users?',
     a: [
       'It was not true',
-      'The promise had been democratization, and the product had a switch users did not control',
       'Nobody had heard of clearing houses',
       'Robinhood refused to explain anything',
-    ],
-    correct: 1,
+      'The promise had been democratization, and the product had a switch users did not control'],
+    correct: 3,
     explain:
       'A correct explanation can still be a useless defence. The switch got flipped at the exact moment the promise was being tested.',
   },
@@ -469,35 +464,32 @@ export const QUIZ = [
     q: 'When and where did Robinhood Chain launch its public mainnet?',
     a: [
       'June 2025, in Cannes',
-      'February 2026, online only',
       'July 1, 2026, at the Old Royal Naval College in London',
-      'January 2021, in New York',
-    ],
-    correct: 2,
+      'February 2026, online only',
+      'January 2021, in New York'],
+    correct: 1,
     explain:
       'The launch happened at the "The World Is Flat" keynote, hosted by Tenev with Johann Kerbrat. Cannes 2025 was the tokenized-stocks announcement; February 2026 was the public testnet.',
   },
   {
     q: 'What is the pattern this course argues defines Tenev\u2019s career?',
     a: [
-      'He builds infrastructure for serious trading and speculative traffic arrives instead',
       'He copies whatever competitors launch first',
       'He avoids regulated markets entirely',
-      'He sells every company he founds within three years',
-    ],
-    correct: 0,
+      'He builds infrastructure for serious trading and speculative traffic arrives instead',
+      'He sells every company he founds within three years'],
+    correct: 2,
     explain:
       'A commission-free brokerage for long-term investors got the meme stock squeeze. A chain for tokenized equities got a token factory. Same story, fifteen years apart.',
   },
   {
     q: 'What is CashCat?',
     a: [
-      'Robinhood\u2019s official chain token',
       'A name Tenev and Bhatt considered before "Robinhood", later revived as an unaffiliated memecoin on Robinhood Chain',
+      'Robinhood\u2019s official chain token',
       'The clearing house that issued the 2021 collateral call',
-      'Tenev\u2019s AI company',
-    ],
-    correct: 1,
+      'Tenev\u2019s AI company'],
+    correct: 0,
     explain:
       'The discarded brand came back as a community memecoin on his own blockchain, briefly reaching around $156M in market cap with no affiliation to the company. Robinhood Chain has no native token.',
   },

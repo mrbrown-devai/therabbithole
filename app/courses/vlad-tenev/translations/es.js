@@ -131,12 +131,12 @@ const t = {
   quiz: [
     {
       q: '¿Dónde nació Vlad Tenev?',
-      a: ['Sofía, Bulgaria', 'Varna, Bulgaria', 'Moscú, Rusia', 'Washington DC, EE. UU.'],
+      a: ['Sofía, Bulgaria', 'Moscú, Rusia', 'Varna, Bulgaria', 'Washington DC, EE. UU.'],
       explain: 'Nació en Varna, en la costa búlgara, en febrero de 1987. Sus padres emigraron primero y él se les unió en EE. UU. a los cinco años.',
     },
     {
       q: '¿A qué se dedicaron sus dos padres tras emigrar a Estados Unidos?',
-      a: ['Llevaban un restaurante', 'Trabajaban en el Banco Mundial', 'Daban clase en Stanford', 'Fundaron un hedge fund'],
+      a: ['Trabajaban en el Banco Mundial', 'Llevaban un restaurante', 'Daban clase en Stanford', 'Fundaron un hedge fund'],
       explain: 'Ambos eran economistas y acabaron trabajando en el Banco Mundial, en la zona de Washington DC.',
     },
     {
@@ -146,37 +146,37 @@ const t = {
     },
     {
       q: '¿Cuál fue la observación que llevó directamente a Robinhood?',
-      a: ['Los minoristas no entendían la bolsa', 'Las firmas profesionales pagaban casi nada por operación mientras los minoristas pagaban 7 a 10 dólares', 'Las apps móviles eran más rentables que las webs', 'Los fondos indexados batían a los gestores activos'],
+      a: ['Los minoristas no entendían la bolsa', 'Las apps móviles eran más rentables que las webs', 'Los fondos indexados batían a los gestores activos', 'Las firmas profesionales pagaban casi nada por operación mientras los minoristas pagaban 7 a 10 dólares'],
       explain: 'Mismo mercado, misma infraestructura, dos listas de precios distintas. La brecha se explicaba por el acceso, no por el coste.',
     },
     {
       q: 'Si Robinhood no cobra comisión, ¿de dónde salen los ingresos?',
-      a: ['De subvenciones públicas', 'Del payment for order flow: los creadores de mercado pagan por recibir las órdenes de los clientes', 'De vender identidades de clientes', 'Nunca ha tenido ingresos'],
+      a: ['Del payment for order flow: los creadores de mercado pagan por recibir las órdenes de los clientes', 'De subvenciones públicas', 'De vender identidades de clientes', 'Nunca ha tenido ingresos'],
       explain: 'Los creadores de mercado pagan al bróker por dirigir las órdenes y ganan con el diferencial. Es público y habitual en la industria, pero significa que el cliente no es quien paga la factura.',
     },
     {
       q: 'En enero de 2021, ¿qué obligó realmente a Robinhood a restringir la compra de GameStop?',
-      a: ['Una orden judicial', 'Una exigencia de colateral de la cámara de compensación muy superior a lo previsto', 'Unos hedge funds compraron parte de Robinhood', 'Se cayeron los servidores'],
+      a: ['Una orden judicial', 'Unos hedge funds compraron parte de Robinhood', 'Una exigencia de colateral de la cámara de compensación muy superior a lo previsto', 'Se cayeron los servidores'],
       explain: 'La restricción estaba en la capa de liquidación, no en la app. Esa es la lección que guía todo lo que Tenev hace después.',
     },
     {
       q: '¿Por qué la explicación técnica no convenció a los usuarios?',
-      a: ['Porque no era cierta', 'La promesa era democratización, y el producto tenía un interruptor que los usuarios no controlaban', 'Nadie había oído hablar de cámaras de compensación', 'Robinhood se negó a explicar nada'],
+      a: ['Porque no era cierta', 'Nadie había oído hablar de cámaras de compensación', 'Robinhood se negó a explicar nada', 'La promesa era democratización, y el producto tenía un interruptor que los usuarios no controlaban'],
       explain: 'Una explicación correcta puede seguir siendo una defensa inútil. El interruptor se accionó justo cuando la promesa estaba a prueba.',
     },
     {
       q: '¿Cuándo y dónde lanzó Robinhood Chain su mainnet público?',
-      a: ['Junio de 2025, en Cannes', 'Febrero de 2026, solo en línea', 'El 1 de julio de 2026, en el Old Royal Naval College de Londres', 'Enero de 2021, en Nueva York'],
+      a: ['Junio de 2025, en Cannes', 'El 1 de julio de 2026, en el Old Royal Naval College de Londres', 'Febrero de 2026, solo en línea', 'Enero de 2021, en Nueva York'],
       explain: 'El lanzamiento fue en el keynote «The World Is Flat», con Tenev y Johann Kerbrat. Cannes 2025 fue el anuncio de las acciones tokenizadas; febrero de 2026, la testnet pública.',
     },
     {
       q: '¿Qué patrón sostiene este curso que define la carrera de Tenev?',
-      a: ['Construye infraestructura para trading serio y llega tráfico especulativo', 'Copia lo que lanzan primero sus competidores', 'Evita por completo los mercados regulados', 'Vende cada empresa que funda en menos de tres años'],
+      a: ['Copia lo que lanzan primero sus competidores', 'Evita por completo los mercados regulados', 'Construye infraestructura para trading serio y llega tráfico especulativo', 'Vende cada empresa que funda en menos de tres años'],
       explain: 'Un bróker sin comisiones para inversores de largo plazo recibió el short squeeze de las meme stocks. Una cadena para acciones tokenizadas recibió una fábrica de tokens. La misma historia, quince años después.',
     },
     {
       q: '¿Qué es CashCat?',
-      a: ['El token oficial de la cadena de Robinhood', 'Un nombre que Tenev y Bhatt barajaron antes de «Robinhood», revivido luego como memecoin no afiliada en Robinhood Chain', 'La cámara de compensación del colateral de 2021', 'La empresa de IA de Tenev'],
+      a: ['Un nombre que Tenev y Bhatt barajaron antes de «Robinhood», revivido luego como memecoin no afiliada en Robinhood Chain', 'El token oficial de la cadena de Robinhood', 'La cámara de compensación del colateral de 2021', 'La empresa de IA de Tenev'],
       explain: 'La marca descartada volvió como memecoin comunitaria en su propia blockchain, rozando los 156 M$ de capitalización sin vínculo con la empresa. Robinhood Chain no tiene token nativo.',
     },
   ],
