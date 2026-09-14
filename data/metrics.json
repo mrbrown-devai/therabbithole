@@ -1,35 +1,35 @@
 {
-  "updatedAt": "2026-09-10T10:30:16.067Z",
+  "updatedAt": "2026-09-14T11:59:10.408Z",
   "source": "DefiLlama",
   "metrics": {
     "rwaTvl": {
-      "value": 28333446912.35681,
-      "count": 175,
-      "fetchedAt": "2026-09-10T10:30:11.248Z"
+      "value": 27663154983.076317,
+      "count": 176,
+      "fetchedAt": "2026-09-14T11:59:05.858Z"
     },
     "robinhoodChain": {
-      "value": 897175677.753459,
-      "fetchedAt": "2026-09-10T10:30:11.270Z"
+      "value": 923497113.1501255,
+      "fetchedAt": "2026-09-14T11:59:05.898Z"
     },
     "robinhoodStables": {
-      "value": 1014611738.8966002,
-      "fetchedAt": "2026-09-10T10:30:11.359Z"
+      "value": 1043318182.7346381,
+      "fetchedAt": "2026-09-14T11:59:06.179Z"
     },
     "tonTvl": {
-      "value": 49331429.42289278,
-      "fetchedAt": "2026-09-10T10:30:16.067Z"
+      "value": 55286736.22959517,
+      "fetchedAt": "2026-09-14T11:59:10.408Z"
     },
     "robinhoodDexVolume": {
-      "value": 1890046704.06,
-      "fetchedAt": "2026-09-10T10:30:11.383Z"
+      "value": 1378938136.53,
+      "fetchedAt": "2026-09-14T11:59:07.000Z"
     },
     "robinhoodBridged": {
-      "value": 3047459689,
-      "fetchedAt": "2026-09-10T10:30:16.049Z"
+      "value": 3102930179,
+      "fetchedAt": "2026-09-14T11:59:10.382Z"
     },
     "robinhoodAppFees": {
-      "value": 13012382.489999998,
-      "fetchedAt": "2026-09-10T10:30:15.992Z"
+      "value": 11418477.359999998,
+      "fetchedAt": "2026-09-14T11:59:07.875Z"
     }
   }
 }
